@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>nl.tsunami-productions.alfred-open-with-iterm</string>
+	<key>connections</key>
+	<dict>
+		<key>2E854B8E-132C-4855-B9EE-1B5BE5EEF4B9</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>119A2DB0-CBBB-483B-A369-B78150F1195B</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Erik Minekus</string>
+	<key>description</key>
+	<string>Open folders with iTerm.</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Open with iTerm</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>script</key>
+				<string>on run argv
+    tell application "Finder"
+        set currentTarget to target of window 1
+        set currentPath to POSIX path of (currentTarget as alias)
+    end tell
+
+    set is_running to (application "iTerm" is running)
+    tell application "iTerm"
+        activate
+        try
+            if is_running then
+                tell current session of current window
+                    set new_pane to (split horizontally with default profile)
+                    tell new_pane
+                        select
+                        write text "cd " &amp; quoted form of currentPath
+                    end tell
+                end tell
+            else
+                tell current session of current window
+                    write text "cd " &amp; quoted form of currentPath
+                end tell
+            end if
+        on error
+            create window with default profile
+            tell current session of current window
+                write text "cd " &amp; quoted form of currentPath
+            end tell
+        end try
+    end tell
+end run</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>6</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>119A2DB0-CBBB-483B-A369-B78150F1195B</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>0</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>0</integer>
+				<key>hotmod</key>
+				<integer>0</integer>
+				<key>hotstring</key>
+				<string></string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>2</integer>
+				<key>relatedApps</key>
+				<array>
+					<string>com.apple.finder</string>
+				</array>
+				<key>relatedAppsMode</key>
+				<integer>1</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>2E854B8E-132C-4855-B9EE-1B5BE5EEF4B9</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>119A2DB0-CBBB-483B-A369-B78150F1195B</key>
+		<dict>
+			<key>xpos</key>
+			<integer>370</integer>
+			<key>ypos</key>
+			<integer>20</integer>
+		</dict>
+		<key>2E854B8E-132C-4855-B9EE-1B5BE5EEF4B9</key>
+		<dict>
+			<key>xpos</key>
+			<integer>20</integer>
+			<key>ypos</key>
+			<integer>20</integer>
+		</dict>
+	</dict>
+	<key>version</key>
+	<string>1.0</string>
+	<key>webaddress</key>
+	<string>https://github.com/ErikMinekus/alfred-workflows</string>
+</dict>
+</plist>

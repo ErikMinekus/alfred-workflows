@@ -1,0 +1,7 @@
+# Alfred
+*.alfredworkflow
+
+# Python
+__pycache__/
+*.egg-info/
+*.py[cdo]
