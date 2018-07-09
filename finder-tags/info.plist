@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>nl.tsunami-productions.alfred-finder-tags</string>
+	<key>connections</key>
+	<dict>
+		<key>0A61D81F-AC9D-4C92-AB31-3A0DFFF225C6</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>5459B743-74B4-4277-AA56-4BD029EF0FD8</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>5340104E-55DE-44DD-9D96-F148900AAEB2</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>0A61D81F-AC9D-4C92-AB31-3A0DFFF225C6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>5459B743-74B4-4277-AA56-4BD029EF0FD8</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>2FD6E5D2-CAA9-4CBB-993B-B4A79EDB12CF</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>C978E843-C821-48C6-AFFA-1BB483169618</string>
+				<key>modifiers</key>
+				<integer>524288</integer>
+				<key>modifiersubtext</key>
+				<string>Replace all tags on the specified files</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>77CAE1CA-5406-476E-BBC0-597DB29FDA93</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>5340104E-55DE-44DD-9D96-F148900AAEB2</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>901C51A0-9376-4386-BB4D-9A0FBABBA870</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>0A61D81F-AC9D-4C92-AB31-3A0DFFF225C6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Erik Minekus</string>
+	<key>description</key>
+	<string>Assign Finder tags to files and folders.</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Finder Tags</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>IFS=$'\t'
+
+for file in ${files}; do
+    ./tag -a "${1}" "${file}"
+done</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>2FD6E5D2-CAA9-4CBB-993B-B4A79EDB12CF</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>acceptsmulti</key>
+				<true/>
+				<key>filetypes</key>
+				<array/>
+				<key>name</key>
+				<string>Tag...</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.action</string>
+			<key>uid</key>
+			<string>901C51A0-9376-4386-BB4D-9A0FBABBA870</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>import biplist, json, os, sys
+
+icons = ['none', 'gray', 'green', 'purple', 'blue', 'yellow', 'red', 'orange']
+items = []
+query = sys.argv[1]
+
+plist = biplist.readPlist(os.path.expanduser('~/Library/SyncedPreferences/com.apple.finder.plist'))
+tags  = plist['values']['FinderTagDict']['value']['FinderTags']
+
+for tag in tags:
+    if not query or query.lower() in tag['n'].lower():
+        items.append({
+            'title': tag['n'],
+            'arg': tag['n'],
+            'autocomplete': tag['n'],
+            'valid': True,
+            'icon': {
+                'path': 'icons/%s.png' % icons[tag.get('l', 0)],
+            },
+        })
+
+if not items:
+    items.append({
+        'title': 'Create new tag "%s"' % query,
+        'arg': query,
+        'valid': True,
+    })
+
+print json.dumps({'items': items})</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string></string>
+				<key>type</key>
+				<integer>3</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>5459B743-74B4-4277-AA56-4BD029EF0FD8</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>variables</key>
+				<dict>
+					<key>files</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>0A61D81F-AC9D-4C92-AB31-3A0DFFF225C6</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>IFS=$'\t'
+
+for file in ${files}; do
+    ./tag -s "${1}" "${file}"
+done</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>C978E843-C821-48C6-AFFA-1BB483169618</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>action</key>
+				<integer>0</integer>
+				<key>argument</key>
+				<integer>1</integer>
+				<key>focusedappvariable</key>
+				<false/>
+				<key>focusedappvariablename</key>
+				<string></string>
+				<key>hotkey</key>
+				<integer>0</integer>
+				<key>hotmod</key>
+				<integer>0</integer>
+				<key>hotstring</key>
+				<string></string>
+				<key>leftcursor</key>
+				<false/>
+				<key>modsmode</key>
+				<integer>2</integer>
+				<key>relatedApps</key>
+				<array>
+					<string>com.apple.finder</string>
+				</array>
+				<key>relatedAppsMode</key>
+				<integer>1</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.hotkey</string>
+			<key>uid</key>
+			<string>77CAE1CA-5406-476E-BBC0-597DB29FDA93</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>inputstring</key>
+				<string>{query}</string>
+				<key>matchcasesensitive</key>
+				<true/>
+				<key>matchmode</key>
+				<integer>1</integer>
+				<key>matchstring</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.filter</string>
+			<key>uid</key>
+			<string>5340104E-55DE-44DD-9D96-F148900AAEB2</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>0A61D81F-AC9D-4C92-AB31-3A0DFFF225C6</key>
+		<dict>
+			<key>xpos</key>
+			<integer>280</integer>
+			<key>ypos</key>
+			<integer>50</integer>
+		</dict>
+		<key>2FD6E5D2-CAA9-4CBB-993B-B4A79EDB12CF</key>
+		<dict>
+			<key>xpos</key>
+			<integer>710</integer>
+			<key>ypos</key>
+			<integer>20</integer>
+		</dict>
+		<key>5340104E-55DE-44DD-9D96-F148900AAEB2</key>
+		<dict>
+			<key>xpos</key>
+			<integer>190</integer>
+			<key>ypos</key>
+			<integer>170</integer>
+		</dict>
+		<key>5459B743-74B4-4277-AA56-4BD029EF0FD8</key>
+		<dict>
+			<key>xpos</key>
+			<integer>370</integer>
+			<key>ypos</key>
+			<integer>20</integer>
+		</dict>
+		<key>77CAE1CA-5406-476E-BBC0-597DB29FDA93</key>
+		<dict>
+			<key>xpos</key>
+			<integer>20</integer>
+			<key>ypos</key>
+			<integer>140</integer>
+		</dict>
+		<key>901C51A0-9376-4386-BB4D-9A0FBABBA870</key>
+		<dict>
+			<key>xpos</key>
+			<integer>20</integer>
+			<key>ypos</key>
+			<integer>20</integer>
+		</dict>
+		<key>C978E843-C821-48C6-AFFA-1BB483169618</key>
+		<dict>
+			<key>xpos</key>
+			<integer>710</integer>
+			<key>ypos</key>
+			<integer>140</integer>
+		</dict>
+	</dict>
+	<key>version</key>
+	<string>1.0</string>
+	<key>webaddress</key>
+	<string>https://github.com/ErikMinekus/alfred-workflows</string>
+</dict>
+</plist>
