@@ -51,6 +51,7 @@ def main(workflow):
         data['title']  = receiver.raw('NTIQSTN')[3:]
         data['artist'] = receiver.raw('NATQSTN')[3:]
         data['album']  = receiver.raw('NALQSTN')[3:]
+        data['time']   = receiver.raw('NTMQSTN')[3:]
         data['status'] = getStatus(receiver.raw('NSTQSTN')[3:])
 
     workflow.cache_data('receiver_data', data)

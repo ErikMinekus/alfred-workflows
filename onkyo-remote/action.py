@@ -41,6 +41,8 @@ def main(workflow):
     elif action == 'volume':
         if value.isdigit():
             receiver.command('volume %d' % int(value))
+        elif value in ['down', 'up']:
+            receiver.command('volume level-%s' % value)
         elif value == 'mute':
             receiver.command('audio-muting toggle')
 

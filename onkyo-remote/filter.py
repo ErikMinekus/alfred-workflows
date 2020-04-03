@@ -11,22 +11,15 @@ def getItems(query, data):
     action = args[0]
     value  = args[1] if len(args) > 1 else ''
 
-    if action == 'discover':
-        return [{
-            'title': 'Discover receiver',
-            'subtitle': '',
-            'arg': 'discover',
-            'autocomplete': '',
-            'valid': True,
-        }]
-
     if not data:
         return [{
             'title': 'Connecting...',
-            'subtitle': '',
-            'arg': '',
             'autocomplete': '',
             'valid': False,
+        }, {
+            'title': 'Discover receiver',
+            'arg': 'discover',
+            'valid': True,
         }]
 
     if not data['isPowerOn']:
@@ -34,7 +27,6 @@ def getItems(query, data):
             'title': 'Turn receiver on',
             'subtitle': data['modelName'],
             'arg': 'on',
-            'autocomplete': '',
             'valid': True,
         }]
 
@@ -42,9 +34,7 @@ def getItems(query, data):
         if data['source'] != 'NET':
             return [{
                 'title': 'Set source to NET',
-                'subtitle': '',
                 'arg': 'source net',
-                'autocomplete': '',
                 'valid': True,
             }]
 
@@ -53,59 +43,42 @@ def getItems(query, data):
         return [{
             'title': data['title'],
             'subtitle': getTrackSubtitle(data['artist'], data['album']),
-            'arg': '',
             'autocomplete': 'net ',
             'valid': False,
         }, {
             'title': 'Pause' if isPlaying else 'Play',
-            'subtitle': '',
             'arg': 'net pause' if isPlaying else 'net play',
-            'autocomplete': '',
             'valid': True,
         }, {
             'title': 'Next track',
-            'subtitle': '',
             'arg': 'net next-track',
-            'autocomplete': '',
             'valid': True,
         }, {
             'title': 'Previous track',
-            'subtitle': '',
             'arg': 'net previous-track',
-            'autocomplete': '',
             'valid': True,
         }]
 
     if action == 'source':
         return [{
             'title': 'BD/DVD',
-            'subtitle': '',
             'arg': 'source bd',
-            'autocomplete': '',
             'valid': True,
         }, {
             'title': 'CBL/SAT',
-            'subtitle': '',
             'arg': 'source cbl',
-            'autocomplete': '',
             'valid': True,
         }, {
             'title': 'GAME',
-            'subtitle': '',
             'arg': 'source game',
-            'autocomplete': '',
             'valid': True,
         }, {
             'title': 'NET',
-            'subtitle': '',
             'arg': 'source net',
-            'autocomplete': '',
             'valid': True,
         }, {
             'title': 'USB',
-            'subtitle': '',
             'arg': 'source usb',
-            'autocomplete': '',
             'valid': True,
         }]
 
@@ -113,43 +86,34 @@ def getItems(query, data):
         if value.isdigit():
             return [{
                 'title': 'Set volume to %d' % int(value),
-                'subtitle': '',
                 'arg': 'volume %d' % int(value),
-                'autocomplete': '',
                 'valid': True,
             }]
 
         return [{
             'title': 'Set volume to ...',
-            'subtitle': '',
-            'arg': '',
             'autocomplete': 'volume ',
             'valid': False,
         }, {
             'title': 'Unmute' if data['isMuting'] else 'Mute',
-            'subtitle': '',
             'arg': 'volume mute',
-            'autocomplete': '',
             'valid': True,
         }]
 
     items = [{
         'title': 'Set source',
         'subtitle': data['source'],
-        'arg': '',
         'autocomplete': 'source ',
         'valid': False,
     }, {
         'title': 'Set volume',
         'subtitle': str(data['volume']),
-        'arg': '',
         'autocomplete': 'volume ',
         'valid': False,
     }, {
         'title': 'Turn receiver off',
         'subtitle': data['modelName'],
         'arg': 'off',
-        'autocomplete': '',
         'valid': True,
     }]
 
@@ -157,7 +121,6 @@ def getItems(query, data):
         items.insert(0, {
             'title': data['title'],
             'subtitle': getTrackSubtitle(data['artist'], data['album']),
-            'arg': '',
             'autocomplete': 'net ',
             'valid': False,
         })
